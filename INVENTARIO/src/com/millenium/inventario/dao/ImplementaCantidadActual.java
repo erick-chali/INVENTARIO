@@ -65,9 +65,15 @@ public class ImplementaCantidadActual implements InterfaceCantidadActual{
 					while(rs.next()){
 //						BeanCantidadActual bean = new BeanCantidadActual();
 						String cantidad = rs.getString("conteo1");
-						bean.setConteo(cantidad);
-						System.out.println("Encontro cantidad: " + cantidad);
-						lista.add(bean);
+						if(rs.getString("conte1")!=null){
+							bean.setConteo(cantidad);
+							System.out.println("Encontro cantidad: " + cantidad);
+							lista.add(bean);
+						}else{
+							bean.setConteo("0");
+							System.out.println("Encontro cantidad: " + cantidad);
+							lista.add(bean);
+						}
 					}
 					
 //				}else{
@@ -97,9 +103,15 @@ public class ImplementaCantidadActual implements InterfaceCantidadActual{
 					while(rs.next()){
 //						BeanCantidadActual bean = new BeanCantidadActual();
 						String cantidad = rs.getString("conteo2");
-						bean.setConteo(cantidad);
-						System.out.println("Encontro cantidad" + cantidad);
-						lista.add(bean);
+						if(rs.getString("conteo2")!=null){
+							bean.setConteo(cantidad);
+							System.out.println("Encontro cantidad " + cantidad);
+							lista.add(bean);
+						}else{
+							bean.setConteo("0");
+							System.out.println("Encontro cantidad " + cantidad);
+							lista.add(bean);
+						}
 					}
 //				}else{
 ////					BeanCantidadActual bean = new BeanCantidadActual();

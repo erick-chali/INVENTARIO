@@ -155,4 +155,14 @@
     <servlet-name>CargarProductosDiferencia</servlet-name>
     <url-pattern>/CargarProductosDiferencia</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EsMuestra</display-name>
+    <servlet-name>EsMuestra</servlet-name>
+    <servlet-class>com.millenium.inventario.servlet.EsMuestra</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EsMuestra</servlet-name>
+    <url-pattern>/EsMuestra</url-pattern>
+  </servlet-mapping>
 </web-app>

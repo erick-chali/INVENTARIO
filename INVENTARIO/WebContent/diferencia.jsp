@@ -9,9 +9,10 @@
 <html>
     <head>
         <meta charset="utf-8">
+        <meta lang="es">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="img/inventario.ico">
-        <title>Toma de Inventario</title>
+        <title>Diferencias</title>
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
         <link type="text/css" rel="stylesheet" href="css/bootstrap-table.css">
         <link type="text/css" rel="stylesheet" href="css/style.css">
@@ -37,7 +38,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Toma de inventario</a>
+          <a class="navbar-brand" href="">Diferencias</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -58,27 +59,23 @@
     </nav>
     <center><img alt="Instalaciones Modernas" src="img/s.jpg" align="middle" id="logo"></center>
     	<h5 id="hoy" class="text-right"></h5>
-        <h3 class="text-center">Inventario de Productos</h3>
+        <h3 class="text-center">Diferencias</h3>
         <div id="tope"></div>
-        
+         
 	
 	
 	
-		<table id="datosDiferencia" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-row-style="rowStyle">
+		<table id="datosDiferencia" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-row-style="rowStyle" data-search="true" data-pagination="true" data-show-columns="true">
 		<thead>
 			<tr>
-				<th data-sortable="true" >Producto</th>
+				<th data-sortable="true" >Codigo Producto</th>
+				<th data-sortable="true" >Descripcion Producto</th>
 				<th data-sortable="true">Bodega</th>
+				<th data-sortable="true">Codigo Bodega</th>
 				<th data-sortable="true">Familia</th>
 				<th data-sortable="true">Marca</th>
-				<th data-sortable="true">Costo</th>
-				<th data-sortable="true">Teorico</th>
-				<th data-sortable="true">Reservado</th>
-				<th data-sortable="true">Existencias</th>
 				<th data-sortable="true">Conteo</th>
 				<th data-sortable="true">Diferencia</th>
-				<th data-sortable="true">C. Estandar</th>
-				<th data-sortable="true">C. Total</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -88,10 +85,9 @@
 						
 						con = new ConectarDB().getConnection();
 						stmt = con.prepareCall("{call Stp_UDintomatabular(?,?)}");
-						//stmt.setString(1, (String) request.getSession().getAttribute("tomaGlobal"));
-						//stmt.setString(2, (String) request.getSession().getAttribute("tomaGlobal"));
-						stmt.setString(1, "586");
-						stmt.setString(2, "586");
+						stmt.setString(1, (String) request.getSession().getAttribute("tomaGlobal"));
+						stmt.setString(2, (String) request.getSession().getAttribute("tomaGlobal"));
+						
 						rs = stmt.executeQuery();
 						
 						while(rs.next()){
@@ -99,18 +95,14 @@
 							//Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(fechaoriginal);
 							//sString newString = new SimpleDateFormat("dd/MM/yyyy").format(date);
 							out.println("<tr>");
-							out.println("<td><div style='height:50px;overflow: auto;'><a href='#' data-toggle='modal' data-target='#popEditarDiferencia'>"+ rs.getString("producto") +"</a></div></td>");
-							out.println("<td>"+ rs.getString("bodega") +"</td>");
+							out.println("<td><a href='#' data-toggle='modal' data-target='#popEditarDiferencia'>"+ rs.getString("codigo_producto") +"</a></td>");
+							out.println("<td>"+ rs.getString("DesProducto") +"</td>");
+							out.println("<td>"+ rs.getString("DesBodega") +"</td>");
+							out.println("<td>"+ rs.getString("codigo_bodega") +"</td>");
 							out.println("<td>"+ rs.getString("familia") +"</td>");
 							out.println("<td>"+ rs.getString("marca") +"</td>");
-							out.println("<td>"+ rs.getString("costo") +"</td>");
-							out.println("<td>"+ rs.getString("teorico") +"</td>");
-							out.println("<td>"+ rs.getString("reservado") +"</td>");
-							out.println("<td>"+ rs.getString("existencias") +"</td>");
 							out.println("<td>"+ rs.getString("conteo") +"</td>");
 							out.println("<td>"+ rs.getString("diferencia") +"</td>");
-							out.println("<td>"+ rs.getString("cestandar") +"</td>");
-							out.println("<td>"+ rs.getString("ctotal") +"</td>");
 							out.println("</tr>");
 						}
 						con.close();
@@ -168,11 +160,11 @@
 									%>
                             </select>
                             <label for="codigoProducto" class="text-right">Codigo Producto</label>
-                            <input class="form-control" type="text" id="codigoProducto" name="codigoProducto" placeholder="Codigo Producto" readonly>
+                            <input class="form-control" type="text" id="codigoProducto" name="codigoProducto" placeholder="Codigo Producto" disabled>
                             <label for="descripcion" class="text-right">Descripción</label>
-                            <input class="form-control"  type="text" id="descripcion" name="descripcion" placeholder="Descripción" readonly>
+                            <input class="form-control"  type="text" id="descripcion" name="descripcion" placeholder="Descripción" disabled>
                             <label for="unidad">Unidad de Medida</label>
-                            <input class="form-control" type="text" id="unidad" name="unidad" placeholder="Unidad Medida" readonly>
+                            <input class="form-control" type="text" id="unidad" name="unidad" placeholder="Unidad Medida" disabled>
                         </div>
                         <div class="col-xs-6 col-sm-4 col-md-4">
                             <label for="estanteria" class="text-right">Estanteria</label>
@@ -232,11 +224,11 @@
                         </div>
                         <div class="col-xs-7 col-sm-4 col-md-4">
                             <label for="cantidadActual" class="text-right">Cantidad Actual</label>
-                            <input class="form-control" type="text" id="cantidadActual" name="cantidad" placeholder="Cantidad Actual" readonly>
+                            <input class="form-control" type="text" id="cantidadActual" name="cantidad" placeholder="Cantidad Actual" disabled>
                             <label for="cantidad" class="text-right">Cantidad Producto</label>
                             <input class="form-control" type="text" id="cantidad" placeholder="*Cantidad" >
                             <label for="total" class="text-right">Total</label>
-                            <input class="form-control" type="text" id="cantidadTotal" placeholder="*Cantidad" readonly>
+                            <input class="form-control" type="text" id="cantidadTotal" placeholder="*Cantidad" disabled>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12">
                         	<button class="btn btn-default" type="button" id="actualizarProd">Actualizar Producto</button>

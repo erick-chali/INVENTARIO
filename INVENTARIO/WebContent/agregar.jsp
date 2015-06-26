@@ -19,13 +19,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="">Toma de inventario</a>
+          <a class="navbar-brand" href="">Tomar Inventario</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active"><a href="agregar.jsp">Toma Inventario</a></li>
             <li><a href="buscar.jsp">Inventario</a></li>
             <li><a href="admin.jsp">Inventario por Toma</a></li>
+            <li><a href="diferencia.jsp">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -135,7 +136,7 @@
                         <div class="col-sm-4 col-md-4">
                             
                             <label for="codigoProducto" class="text-right">Codigo Producto</label>
-                            <input class="form-control" type="number" id="codigoProducto" name="codigoProducto" placeholder="Codigo Producto">
+                            <input class="form-control" type="text" id="codigoProducto" name="codigoProducto" placeholder="Codigo Producto">
                             
                             <div class="col-sm-12 col-md-12">
                             	<button class="btn btn-default col-sm-6 col-md-6" id="popAbrir"data-toggle="modal" data-target="#popBuscaProd" style="background-color: #CCEEFF">Buscar Producto</button>

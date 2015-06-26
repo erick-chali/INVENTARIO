@@ -45,7 +45,6 @@ $(document).ready(function(){
 			       rowHead.children().eq(1).text("Descripcion Producto");
 			       rowHead.children().eq(2).text("Unidad de Medida");
 			       rowHead.children().eq(3).text("Descripcion Unidad");
-			       
 			       rowHead.appendTo(table1);
 			       $.each(responseJson, function(key,value) {
 			            var rowNew = $("<tr><td><a href='#'></a></td><td></td><td></td><td></td></tr>");
@@ -111,14 +110,17 @@ $(document).ready(function(){
 		var bodegaProd = $td.eq(7).text();
 		var seccionId = $td.eq(8).text();
 		var estanteriaId = $td.eq(9).text();
-		
 		$("#codigoProducto").val(codProd); 
 		$("#descripcion").val(descProd);
-		$("#seccion option[value="+seccionId+"]").attr("selected",true);
-		$("#estanteria option[value="+estanteriaId+"]").attr("selected",true);
-		$("#bodega option[value="+bodegaProd+"]").attr("selected",true);
 		$("#unidad").val(unidad);
 		$("#cantidadActual").val(conteo1);
+		$("#bodega").val(bodegaProd);
+		$("#seccion").val(seccionId);
+		$("#estanteria").val(estanteriaId);
+//		$("#seccion option[value="+seccionId+"]").attr("selected",true);
+//		$("#estanteria option[value="+estanteriaId+"]").attr("selected",true);
+//		$("#bodega option[value="+bodegaProd+"]").attr("selected",true);
+		
 		}  
 	);
 	
@@ -159,10 +161,9 @@ $(document).ready(function(){
 			//Para evitar que el link actue.  
 			event.preventDefault();  
 			var $td= $(this).closest('tr').children('td');
-			var $td2= $(this).closest('tr').children('td').children('div');
 			
-			var codProd = separarCodigo($td2.eq(0).text());  
-			var codBodega = separarCodigo($td.eq(1).text());
+			var codProd = $td.eq(0).text();  
+			var codBodega =$td.eq(3).text();
 			$('#popProductosDiferencias tr').each(function(){
 				 $(this).remove();
 			  });
@@ -215,10 +216,12 @@ $(document).ready(function(){
 			
 			$("#codigoProducto").val(codProd); 
 			$("#descripcion").val(descProd);
-			$("#seccion option[value="+seccion+"]").attr("selected",true);
-			$("#estanteria option[value="+estanteria+"]").attr("selected",true);
-			$("#bodega option[value="+bodega+"]").attr("selected",true);
+			$("#seccion").val(seccion);
+			$("#estanteria").val(estanteria);
+			$("#bodega").val(bodega);
+			
 			$("#unidad").val(unidad);
+			
 			$("#cantidadActual").val(cantidad);
 			}
 			
@@ -244,7 +247,7 @@ $(document).ready(function(){
 				$("#notificacion").text("Necesita seleccionar bodega, seccion y estanteria");
 			}else{
 				var cod = $("#codigoProducto").val();
-				$('#codigoProducto').clone().prop('type','text').insertAfter('#codigoProducto').prev().remove();
+				
 				$.get('AutocompletarCodigo',{codP:cod},function(responseJson) {
 					   if(responseJson!=null){
 					       $.each(responseJson, function(key, value) {
@@ -266,18 +269,14 @@ $(document).ready(function(){
 					            $("#cantidadActual").val(value['conteo']);
 					       });
 					       }
+					   Total();
 					   $("#cantidad").focus();
 					   });
 				
 			}
 		}
 	});
-	//para ir a boton agregar
-	$("#cantidad").keydown(function (e){
-		if(e.keyCode==13){
-			$("#tomarInventario").focus();
-		}
-	});
+	
 	
 	//funcion autocompletar al presionar tab Buscar Producto
 	$("#codigoProducto1").keydown(function(e){
@@ -297,40 +296,56 @@ $(document).ready(function(){
 		}
 	});
 	//tomar Inventario
+	function agregarAInventario(){
+		var codigoP=$('#codigoProducto').val();
+		var codigoB=$('#bodega').val();
+		var codigoE=$('#estanteria').val();
+		var codigoS=$('#seccion').val();
+		var descripP=$('#descripcion').val();
+		var unidadM=$('#unidad').val();
+		var cantidadT=$('#cantidadTotal').val();
+		$.post('AgregarProducto', {
+			codigop : codigoP,
+			codigob: codigoB,
+			codigoe: codigoE,
+			codigos: codigoS,
+			descrip: descripP,
+			unidad: unidadM,
+			cantidad: cantidadT
+		}, function(responseText) {
+			$('#notificacion').text(responseText);
+			$('#codigoProducto').val("");
+			$('#descripcion').val("");
+			$('#unidad').val("");
+			$('#cantidadTotal').val("");
+			$('#cantidad').val("");
+			$('#cantidadActual').val("");
+		});
+		$("#codigoProducto").focus();
+		esMuestra();
+	}
+	function Total(){
+		var cantidadActual = parseInt($('#cantidadActual').val());
+		var cantidadIngresada = parseInt($('#cantidad').val());
+		var total = $('#cantidadTotal').val((cantidadActual + cantidadIngresada));
+	}
+	//para ir a boton agregar
+	$("#cantidad").keydown(function (e){
+		if(e.keyCode==13){
+			if($('#cantidad').val() === ''){
+				$('#notificacion').text("debe ingresar al menos cero 0");
+			}else{
+				agregarAInventario();
+			}
+		}
+	});
 	$('#tomarInventario').click(function (event){
 		var total =  parseInt($('#cantidadTotal').val());
 		if(total<0){
 			$('#notificacion').text('La cantidad total debe ser menor o igual a cero');
 		}else{
-			var codigoP=$('#codigoProducto').val();
-			var codigoB=$('#bodega').val();
-			var codigoE=$('#estanteria').val();
-			var codigoS=$('#seccion').val();
-			var descripP=$('#descripcion').val();
-			var unidadM=$('#unidad').val();
-			var cantidadT=$('#cantidadTotal').val();
-			$.post('AgregarProducto', {
-				codigop : codigoP,
-				codigob: codigoB,
-				codigoe: codigoE,
-				codigos: codigoS,
-				descrip: descripP,
-				unidad: unidadM,
-				cantidad: cantidadT
-			}, function(responseText) {
-				$('#notificacion').text(responseText);
-				$('#codigoProducto').val("");
-				$('#descripcion').val("");
-				$('#unidad').val("");
-				$('#cantidadTotal').val("");
-				$('#cantidad').val("");
-				$('#cantidadActual').val("");
-			});
-			$('#codigoProducto').clone().prop('type','number').insertAfter('#codigoProducto').prev().remove();
-			$("#codigoProducto").focus();
-			
+			agregarAInventario();
 		}
-		
 		
 	});
 	
@@ -387,7 +402,10 @@ $(document).ready(function(){
 			   if(responseJson!=null){
 			       $("#datosBusqueda").find("tr:gt(0)").remove();
 			       var table1 = $("#datosBusqueda");
-			       var rowHead = $("<tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>");
+			       var thead = $("<thead></thead>");
+			       thead.appendTo(table1);
+			       var rowHead = $("<tr> <th ></th> <th></th> <th></th> <th></th> <th></th> " +
+			       						"<th ></th> <th></th> <th></th> <th></th> <th></th> </tr>");
 			       rowHead.children().eq(0).text("Codigo Producto");
 			       rowHead.children().eq(1).text("Descripcion");
 			       rowHead.children().eq(2).text("Cantidad");
@@ -399,7 +417,9 @@ $(document).ready(function(){
 			       rowHead.children().eq(8).text("Cod. Sec.");
 			       rowHead.children().eq(9).text("Cod. Est.");
 			       
-			       rowHead.appendTo(table1);
+			       rowHead.appendTo(thead);
+			       var tbody=$("<tbody></tbody>")
+			       tbody.appendTo(table1);
 			       $.each(responseJson, function(key,value) {
 			    	   var rowNew = $("<tr><td><a href='#' data-toggle='modal' data-target='#popEditar'></a></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>");
 			               rowNew.children().children().eq(0).text(value['codP']);
@@ -412,15 +432,13 @@ $(document).ready(function(){
 			               rowNew.children().eq(7).text(value['codB']);
 			               rowNew.children().eq(8).text(value['codS']);
 			               rowNew.children().eq(9).text(value['codE']);
-			               rowNew.appendTo(table1);
+			               rowNew.appendTo(tbody);
 			       });
 			       }
 			   
 			   });
 		  
 	}
-	
-	
 	
 	//funcion cuando autocompletar on focus
 	$( "#descripcion" ).focus(function() {
@@ -459,6 +477,24 @@ $(document).ready(function(){
 	
 	$( "input[type=text]" ).focus(function() {
 		$( this ).css({'background-color':'F5FFD6'});
+	});
+	function esMuestra(){
+		var estanteriaID = $("#estanteria").val();
+		$.get('EsMuestra', {
+			codigoe: estanteriaID
+		}, function(responseText) {
+			$('#cantidad').val(responseText);
+		});
+		
+	}
+	$('#estanteria').change(function(){
+		 var opcion = $(this).find('option:selected');
+		 var idEst = $(opcion).val();
+		 $.get('EsMuestra', {
+				codigoe: idEst
+			}, function(responseText) {
+				$('#cantidad').val(responseText);
+			});
 	});
 });
 	  
