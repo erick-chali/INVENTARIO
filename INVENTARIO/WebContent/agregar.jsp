@@ -104,32 +104,9 @@
 										}
 									%>
 			                	</select>
-			                	<label for="seccion" class="text-right">Seccion</label>
-			                	<select id="seccion" class="form-control" class="required">
-				                    <option value="" selected="selected">Seccion</option>
-				                    <% 
-										Connection connS = null;
-										CallableStatement psS = null;
-										ResultSet rsS = null;
-										try{
-											
-											connS = new ConectarDB().getConnection();
-											psS = connS.prepareCall("{call stp_buscaseccion}");
-											rsS = psS.executeQuery();
-											if(rsS!=null){
-									            while(rsS.next()){
-								            		out.print("<option value=\"" + rsS.getString("Seccion_Id") + "\">"  + rsS.getString("descripcion") + "</option>"); 
-								            	}
-									            connS.close();
-									            psS.close();
-									            rsS.close();
-								            }else{
-								            	out.print("<option>"+"No hay Bodegas Disponibles"+"</option>");
-								            }
-										}catch(SQLException sqlex){
-											sqlex.printStackTrace();
-										}
-									%>
+			                	<label for="seccionA" class="text-right">Seccion</label>
+			                	<select id="seccionA" class="form-control" class="required">
+				                    
 			                	</select>
                             
                         </div>
@@ -163,7 +140,7 @@
                         </div>
                     </div>
                 </div>
-            <div class="panel-footer"><h4 id="notificacion"></h4></div>
+            <div class="panel-footer"><h4 id="notificacion" class="alert alert-info" role="alert"></h4></div>
         </div>
     
     <div class="modal fade" id="popBuscaProd">
@@ -183,12 +160,7 @@
                     </button>
                     <div id="tablaPOP">
 	                    <table id="popDatosBusqueda" class="table table-hover" style="margin-top: 10px;">
-	                    	<tr>
-	                    		<th>Codigo Producto</th>
-	                    		<th>Descripcion Producto</th>
-	                    		<th>Unidad Medida</th>
-	                    		<th>Descripcion Medida</th>
-	                    	</tr>
+	                    	
 	                    </table>
 	            	</div>
 				</div><!-- Componentes  -->

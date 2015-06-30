@@ -42,20 +42,25 @@ public class BuscaProducto extends HttpServlet {
 		InterfaceBuscaProducto iface = new ImplementaBuscaProducto();
 		String codP = request.getParameter("codigo");
 		String descP = request.getParameter("desc");
-		System.out.println("Producto: " + codP + " Descripcion" + descP);
+		String codB = request.getParameter("codb");
+		String codS = request.getParameter("cods");
+		String codE = request.getParameter("code");
+		String toma = (String) request.getSession().getAttribute("tomaGlobal");
 		bean.setCodigoProducto(codP);
 		bean.setDescripcionProducto(descP);
-		
+		bean.setCodB(codB);
+		bean.setCodS(codS);
+		bean.setCodE(codE);
+		bean.setNoToma(toma);
 		bean = iface.buscarProducto(bean);
 		
 //		if(bean.getResultado()==1){
-			ArrayList<BeanBuscaProducto> datos = new ArrayList<BeanBuscaProducto>();
-			
-			
+		
+		
+			ArrayList<BeanBuscaProducto> datos = new ArrayList<>();
 			datos = ImplementaBuscaProducto.obtenerProductos();
-			
 			Gson gson = new Gson();
-			JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<BeanBuscaProducto>>(){}.getType());
+			JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<BeanBuscaProducto>>() {}.getType());
 			JsonArray arreglo = elemento.getAsJsonArray();
 			response.setContentType("application/json");
 			response.getWriter().print(arreglo);

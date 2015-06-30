@@ -31,7 +31,7 @@ public class ImplementLogin implements InterfaceLogin{
 			
 			while(rs.next()){
 				if(rs.getString("estado_empleado").equals("A")){
-					if(!rs.getBoolean("login")){
+//					if(!rs.getBoolean("login")){
 						if(rs.getString("UserName").equals(usuario)&&rs.getString("Password").equals(pass)){
 							bean.setUsuario(rs.getString("UserName"));
 							bean.setNoToma(noToma);
@@ -53,10 +53,10 @@ public class ImplementLogin implements InterfaceLogin{
 							bean.setNotificacion("Usuario o clave incorrectos");
 							bean.setRespuesta(0);
 						}
-					}else{
-						bean.setNotificacion("El usuario ya tiene una sesion activa, cierrela e intente de nuevo");
-						bean.setRespuesta(0);
-					}
+//					}else{
+//						bean.setNotificacion("El usuario ya tiene una sesion activa, cierrela e intente de nuevo");
+//						bean.setRespuesta(0);
+//					}
 					
 				}else{
 					bean.setNotificacion("El usuario no tiene permisos para ingresar");

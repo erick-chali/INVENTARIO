@@ -32,7 +32,6 @@ public class EsMuestra extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Entro a muestras");
 		String codigoE = request.getParameter("codigoe");
 		String respuesta = "";
 		Connection con = null;

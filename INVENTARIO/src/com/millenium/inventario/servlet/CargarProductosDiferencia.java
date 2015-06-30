@@ -49,12 +49,12 @@ public class CargarProductosDiferencia extends HttpServlet {
 		
 		bean = iface.cargarProductos(bean);
 		
-		ArrayList<BeanProductosDiferencia> datos = new ArrayList<BeanProductosDiferencia>();
+		ArrayList<BeanProductosDiferencia> datos = new ArrayList<>();
 		
 		datos = ImplementaProductosDiferencia.obtenerProductos();
 		
 		Gson gson = new Gson();
-		JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<BeanProductosDiferencia>>(){}.getType());
+		JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<BeanProductosDiferencia>>() {}.getType());
 		JsonArray arreglo = elemento.getAsJsonArray();
 		response.setContentType("application/json");
 		response.getWriter().print(arreglo);

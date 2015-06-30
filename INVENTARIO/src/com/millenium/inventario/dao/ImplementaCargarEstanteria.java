@@ -34,7 +34,8 @@ public class ImplementaCargarEstanteria {
 			stmt=null;
 			rs=null;
 			conn = new ConectarDB().getConnection();
-			stmt = conn.prepareCall("{call stp_buscaseccion}");
+			stmt = conn.prepareCall("{call stp_buscaseccion(?)}");
+			stmt.setInt(1, 1);
 			rs = stmt.executeQuery();
 			
 			if(rs.next()){

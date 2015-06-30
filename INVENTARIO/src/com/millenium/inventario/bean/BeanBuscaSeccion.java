@@ -1,27 +1,39 @@
 package com.millenium.inventario.bean;
 
 public class BeanBuscaSeccion {
-	private int respuesta;
-	private String codigoSeccion;
-	private String descripcionSeccion;
-	public int getRespuesta() {
-		return respuesta;
+	public BeanBuscaSeccion(String codigoS, String descS){
+		this.setCodigoS(codigoS);
+		this.setDescS(descS);
 	}
-	public void setRespuesta(int respuesta) {
-		this.respuesta = respuesta;
+	public BeanBuscaSeccion(){}
+	
+	private String codigoS;
+	private String descS;
+	private String estanteriaID;
+	
+	public String getCodigoS() {
+		return codigoS;
 	}
-	public String getCodigoSeccion() {
-		return codigoSeccion;
+	public void setCodigoS(String codigoS) {
+		this.codigoS = codigoS;
 	}
-	public void setCodigoSeccion(String codigoSeccion) {
-		this.codigoSeccion = codigoSeccion;
+	
+	public String getDescS() {
+		return descS;
 	}
-	public String getDescripcionSeccion() {
-		return descripcionSeccion;
+	public void setDescS(String descS) {
+		this.descS = descS;
 	}
-	public void setDescripcionSeccion(String descripcionSeccion) {
-		this.descripcionSeccion = descripcionSeccion;
+	public String getEstanteriaID() {
+		return estanteriaID;
 	}
+	public void setEstanteriaID(String estanteriaID) {
+		this.estanteriaID = estanteriaID;
+	}
+	
+	
+	
+	
 	
 	
 }

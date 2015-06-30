@@ -30,13 +30,8 @@ public class ImplementaAgregarProducto implements InterfaceAgregarProducto{
 			sb.append("SELECT unidad_medida FROM in_unidades where descripcion='"+obj.getUnidadMedida()+"';");
 			ps = con.prepareStatement(sb.toString());
 			rs = ps.executeQuery();
-			if(rs.next()){
-				System.out.println("si hay");
-				
+			while(rs.next()){
 				unidad = rs.getString("unidad_medida");
-				System.out.println(unidad);
-			}else{
-			System.out.println("no hay unidad");
 			}
 			ps=null;
 			rs = null;
@@ -60,7 +55,7 @@ public class ImplementaAgregarProducto implements InterfaceAgregarProducto{
 				if(rs.next()){
 					bean.setExiste(rs.getInt(1));
 				}
-				bean.setNotificacion("Producto Agregado -- Toma: 1");
+				bean.setNotificacion("Producto: "+obj.getCodigoProducto()+" Agregado -- Toma: 1");
 				//cerrar conexiones
 				stmt = null;
 				rs = null;
@@ -84,7 +79,7 @@ public class ImplementaAgregarProducto implements InterfaceAgregarProducto{
 				if(rs.next()){
 					bean.setExiste(rs.getInt(1));
 				}
-				bean.setNotificacion("Producto Agregado -- Toma: 2");
+				bean.setNotificacion("Producto: "+obj.getCodigoProducto()+" Agregado -- Toma: 2");
 				//cerrar conexiones
 				stmt = null;
 				rs = null;

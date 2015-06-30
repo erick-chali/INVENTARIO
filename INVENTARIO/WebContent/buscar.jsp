@@ -163,7 +163,7 @@
                             <label for="cantidadActual" class="text-right">Cantidad Actual</label>
                             <input class="form-control" type="text" id="cantidadActual" name="cantidad" placeholder="Cantidad Actual" disabled>
                             <label for="cantidad" class="text-right">Cantidad Producto</label>
-                            <input class="form-control" type="text" id="cantidad" placeholder="*Cantidad" >
+                            <input class="form-control" type="text" id="cantidadA" placeholder="*Cantidad" >
                             <label for="total" class="text-right">Total</label>
                             <input class="form-control" type="text" id="cantidadTotal" placeholder="*Cantidad" disabled>
                         </div>

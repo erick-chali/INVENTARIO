@@ -61,10 +61,7 @@
     	<h5 id="hoy" class="text-right"></h5>
         <h3 class="text-center">Diferencias</h3>
         <div id="tope"></div>
-         
-	
-	
-	
+        
 		<table id="datosDiferencia" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-row-style="rowStyle" data-search="true" data-pagination="true" data-show-columns="true">
 		<thead>
 			<tr>

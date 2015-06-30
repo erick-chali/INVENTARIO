@@ -10,110 +10,252 @@ import com.millenium.db.conectar.ConectarDB;
 import com.millenium.inventario.bean.BeanBuscaProducto;
 
 public class ImplementaBuscaProducto implements InterfaceBuscaProducto{
-	public static String codigoP, codigoCompleto;
-	public static String descP;
+	public static String codigoP;
+	public static String codBod;
+	public static int codEst, codSec, estado;
+	public static String descP,noToma;
 	@Override
 	public BeanBuscaProducto buscarProducto(BeanBuscaProducto obj) {
 		// TODO Auto-generated method stub
 		codigoP = obj.getCodigoProducto();
 		descP = obj.getDescripcionProducto();
+		codBod = obj.getCodB();
+		codEst = Integer.parseInt( (String) obj.getCodE() );
+		codSec = Integer.parseInt( (String) obj.getCodS() );
+		ObtenerToma toma = new ObtenerToma();
+		estado = toma.numToma((String) obj.getNoToma());
+		System.out.println(codBod + " " + codEst + " " + codSec);
 		return null;
 	}
 	public static ArrayList<BeanBuscaProducto> obtenerProductos(){
 		Connection conectar = null;
 		CallableStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<BeanBuscaProducto> listaDatos = new ArrayList<BeanBuscaProducto>();
-		BeanBuscaProducto bean = new BeanBuscaProducto();
+		ArrayList<BeanBuscaProducto> listaDatos = new ArrayList<>();
+		
 		try{
-			conectar = new ConectarDB().getConnection();
-			ps = conectar.prepareCall("{call stp_obtenerDigitos(?)}");
-			ps.setString(1, codigoP);
-			rs = ps.executeQuery();
-			if(rs.next()){
-				codigoCompleto = rs.getString("Codigo");
-			}
-			ps=null;
-			rs=null;
-			System.out.println("Codigo Completo: "+codigoCompleto);
 			if(descP.equals("")){
-				conectar = new ConectarDB().getConnection();
-				ps = conectar.prepareCall("{call stp_CoincidenciasProductoCodigo(?)}");
-				ps.setString(1, codigoCompleto);
-				rs = ps.executeQuery();
-				if(rs!=null){
-					System.out.println("Encontro Codigo");
-					while(rs.next()){
-//						BeanBuscaProducto bean = new BeanBuscaProducto();
-						bean.setCodigoProducto(rs.getString("codigo_producto"));
-						bean.setDescripcionProducto(rs.getString("descripcion_larga"));
-						bean.setUnidadMedida(rs.getString("unidad_inventario"));
-						bean.setDescripcionUnidad(rs.getString("descripcion"));
+				if(estado==2){
+					BeanBuscaProducto bean = new BeanBuscaProducto();
+					conectar = new ConectarDB().getConnection();
+					ps = conectar.prepareCall("{call stp_CoincidenciasProductoCodigo(?,?,?,?)}");
+					ps.setString(1, codigoP);
+					ps.setString(2, codBod);
+					ps.setInt(3, codEst);
+					ps.setInt(4, codSec);
+					rs = ps.executeQuery();
+						while(rs.next()){
+							if(rs.getString("conteo1")!=null){
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad(rs.getString("conteo1"));
+								listaDatos.add(bean);
+							}else{
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad("0");
+								listaDatos.add(bean);
+							}
+							
+						}
+						bean.setResultado(1);
 						
-						listaDatos.add(bean);
-					}
-					bean.setResultado(1);
-					
-					
+					conectar.close();
+					ps.close();
+					rs.close();
 				}else{
-					System.out.println("No hay");
+					BeanBuscaProducto bean = new BeanBuscaProducto();
+					conectar = new ConectarDB().getConnection();
+					ps = conectar.prepareCall("{call stp_CoincidenciasProductoCodigo(?,?,?,?)}");
+					ps.setString(1, codigoP);
+					ps.setString(2, codBod);
+					ps.setInt(3, codEst);
+					ps.setInt(4, codSec);
+					rs = ps.executeQuery();
+						while(rs.next()){
+							if(rs.getString("conteo2")!=null){
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad(rs.getString("conteo2"));
+								listaDatos.add(bean);
+							}else{
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad("0");
+								listaDatos.add(bean);
+							}
+							
+						}
+						bean.setResultado(1);
+						
+						conectar.close();
+						ps.close();
+						rs.close();
 				}
-				rs=null;
-				ps=null;
-			}else if(codigoP.equals("")){
 				
-				conectar = new ConectarDB().getConnection();
-				ps = conectar.prepareCall("{call stp_CoincidenciasProductoDescripcion(?)}");
-				ps.setString(1, descP);
-				rs = ps.executeQuery();
-				if(rs!=null){
-					System.out.println("Encontro Producto");
-					while(rs.next()){
-//						BeanBuscaProducto bean = new BeanBuscaProducto();
-						bean.setCodigoProducto(rs.getString("codigo_producto"));
-						bean.setDescripcionProducto(rs.getString("descripcion_larga"));
-						bean.setUnidadMedida(rs.getString("unidad_inventario"));
-						bean.setDescripcionUnidad(rs.getString("descripcion"));
+			}else if(codigoP.equals("")){
+				if(estado==2){
+					
+					conectar = new ConectarDB().getConnection();
+					ps = conectar.prepareCall("{call stp_CoincidenciasProductoDescripcion(?,?,?,?)}");
+					ps.setString(1, descP);
+					ps.setString(2, codBod);
+					ps.setInt(3, codEst);
+					ps.setInt(4, codSec);
+					rs = ps.executeQuery();
+						while(rs.next()){
+							BeanBuscaProducto bean = new BeanBuscaProducto();
+//							if(rs.getString("conteo1")!=null){
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad(rs.getString("conteo1"));
+								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
+										+ " " + bean.getCantidad()
+										);
+								listaDatos.add(bean);
+								
+//							}else{
+//								bean.setCodigoProducto(rs.getString("codigo_producto"));
+//								
+//								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+//								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+//								bean.setDescripcionUnidad(rs.getString("descripcion"));
+//								bean.setCantidad("0");
+//								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
+//										+ " " + bean.getCantidad()
+//										);
+//								listaDatos.add(bean);
+//							}
+						}
 						
-						listaDatos.add(bean);
-					}
-					bean.setResultado(1);
-				}else{
-					System.out.println("No hay");
-				};
-				ps=null;
-				rs=null;
+						conectar.close();
+						ps.close();
+						rs.close();
+				}else if(estado==3){
+					
+					conectar = new ConectarDB().getConnection();
+					ps = conectar.prepareCall("{call stp_CoincidenciasProductoDescripcion(?,?,?,?)}");
+					ps.setString(1, descP);
+					ps.setString(2, codBod);
+					ps.setInt(3, codEst);
+					ps.setInt(4, codSec);
+					rs = ps.executeQuery();
+						while(rs.next()){
+							BeanBuscaProducto bean = new BeanBuscaProducto();
+							if(rs.getString("conteo2")!=null){
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad(rs.getString("conteo2"));
+								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
+										+ " " + bean.getCantidad()
+										);
+								listaDatos.add(bean);
+							}else{
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad("0");
+								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
+										+ " " + bean.getCantidad()
+										);
+								listaDatos.add(bean);
+							}
+							
+						}
+						
+						conectar.close();
+						ps.close();
+						rs.close();
+				}
+				
 			}else if(!descP.equals("") && !codigoP.equals("")){
 				
-				conectar = new ConectarDB().getConnection();
-				ps = conectar.prepareCall("{call stp_CoincidenciasProductoCodigo(?)}");
-				ps.setString(1, codigoCompleto);
-				rs = ps.executeQuery();
-				if(rs!=null){
-					System.out.println("Encontro Codigo");
-					while(rs.next()){
-//						BeanBuscaProducto bean = new BeanBuscaProducto();
-						bean.setCodigoProducto(rs.getString("codigo_producto"));
-						bean.setDescripcionProducto(rs.getString("descripcion_larga"));
-						bean.setUnidadMedida(rs.getString("unidad_inventario"));
-						bean.setDescripcionUnidad(rs.getString("descripcion"));
+				if(estado==2){
+					BeanBuscaProducto bean = new BeanBuscaProducto();
+					conectar = new ConectarDB().getConnection();
+					ps = conectar.prepareCall("{call stp_CoincidenciasProductoCodigo(?,?,?,?)}");
+					ps.setString(1, codigoP);
+					ps.setString(2, codBod);
+					ps.setInt(3, codEst);
+					ps.setInt(4, codSec);
+					rs = ps.executeQuery();
+						while(rs.next()){
+							if(rs.getString("conteo1")!=null){
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad(rs.getString("conteo1"));
+								listaDatos.add(bean);
+							}else{
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad("0");
+								listaDatos.add(bean);
+							}
+							
+						}
+						bean.setResultado(1);
 						
-						listaDatos.add(bean);
-					}
-					bean.setResultado(1);
-					
+						conectar.close();
+						ps.close();
+						rs.close();
 				}else{
-					System.out.println("No hay");
+					BeanBuscaProducto bean = new BeanBuscaProducto();
+					conectar = new ConectarDB().getConnection();
+					ps = conectar.prepareCall("{call stp_CoincidenciasProductoCodigo(?,?,?,?)}");
+					ps.setString(1, codigoP);
+					ps.setString(2, codBod);
+					ps.setInt(3, codEst);
+					ps.setInt(4, codSec);
+					rs = ps.executeQuery();
+						while(rs.next()){
+							if(rs.getString("conteo2")!=null){
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad(rs.getString("conteo2"));
+								
+								listaDatos.add(bean);
+							}else{
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad("0");
+								listaDatos.add(bean);
+							}
+							
+						}
+						bean.setResultado(1);
+						
+						conectar.close();
+						ps.close();
+						rs.close();
 				}
-				ps=null;
-				rs=null;
 			}else if(descP.equals("")&&codigoP.equals("")){
-//				BeanBuscaProducto bean = new BeanBuscaProducto();
+				BeanBuscaProducto bean = new BeanBuscaProducto();
 				bean.setResultado(0);
 				bean.setNotificacion("Necesita ingresar un campo");
 			}
 		}catch(SQLException ex){
-			System.out.println("Error: " + ex);
+			System.out.println("Error: " + ex.getMessage());
 		}
 		return listaDatos;
 	}
