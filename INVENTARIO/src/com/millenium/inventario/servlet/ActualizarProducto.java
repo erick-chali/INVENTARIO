@@ -60,7 +60,7 @@ public class ActualizarProducto extends HttpServlet {
 		bean.setUnidadMedida(unidad);
 		bean.setUsuario(usuario);
 		bean.setNoToma(toma);
-		System.out.println("se lleno el bean");
+		
 		bean = iface.actualizar(bean);
 		if(bean.getExiste()==1){
 			response.setContentType("text/html");

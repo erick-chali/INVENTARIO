@@ -1,3 +1,4 @@
+
 package com.millenium.inventario.dao;
 
 import java.sql.CallableStatement;
@@ -6,62 +7,57 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+
+import org.apache.openejb.util.Connect;
 
 import com.millenium.db.conectar.ConectarDB;
 import com.millenium.inventario.bean.BeanAutoCompletar;
 
 @Stateless
-@LocalBean
-public class ImplementaAutoCompletar implements InterfaceAutoCompletar{
-	public static String codigo, noToma,codB;
-	public static int estado,codE,codS;
-	@Override
-	public BeanAutoCompletar obtenerProducto(BeanAutoCompletar obj) {
-		// TODO Auto-generated method stub
-		codigo  = obj.getCodigoProducto();
-		noToma = obj.getNoToma();
-		codB = obj.getCodigoBod();
-		codE = Integer.parseInt( (String) obj.getCodigoEst());
-		codS = Integer.parseInt( (String) obj.getCodigoSec());
+public class DatosProductoResultado implements DatosProductoRemoto{
+	
+	
+	public static int estado;
+	public DatosProductoResultado() {
+		// TODO Auto-generated constructor stub
 		
-		ObtenerToma toma = new ObtenerToma();
-		estado = toma.numToma(noToma);
-		obj = null;
-		return null;
 	}
-	public static ArrayList<BeanAutoCompletar> obtenerProductos(){
+	public static ArrayList<DatosProducto> obtenerDatos(String codigoP, String codigoS, String codigoB, String codigoE) {
+		// TODO Auto-generated method stub
 		Connection conectar = null;
 		CallableStatement ps = null;
 		ResultSet rs = null;
-		ArrayList<BeanAutoCompletar> listaCodigo = new ArrayList<BeanAutoCompletar>();
-		BeanAutoCompletar bean = null;
+		ArrayList<DatosProducto> resultado= new ArrayList<DatosProducto>();
+		
 		try{
-			
 			if(estado == 2){
 				conectar = new ConectarDB().getConnection();
 				ps = conectar.prepareCall("{call stp_ProductoAutoCompletacion(?,?,?,?)}");
-				ps.setString(1, codigo);
+				int codS,codE;
+				codS = Integer.parseInt(codigoS);
+				codE = Integer.parseInt(codigoE);
+				ps.setString(1, codigoP);
 				ps.setInt(2, codS);
-				ps.setString(3, codB);
+				ps.setString(3, codigoB);
 				ps.setInt(4, codE);
 				rs = ps.executeQuery();
 				while(rs.next()){
-					bean = new BeanAutoCompletar();
+					DatosProducto bean = new DatosProducto();
 					System.out.println(rs.getString("conteo1"));
 					if(rs.getString("conteo1")!=null){
 						bean.setCodigoProducto(rs.getString("codigo_producto"));
 						bean.setDescripProducto(rs.getString("descripcion_larga"));
 						bean.setUnidadMedida(rs.getString("descripcion"));
 						bean.setCantidad(rs.getString("conteo1"));
-						listaCodigo.add(bean);
+						resultado.add(bean);
 					}else{
 						bean.setCodigoProducto(rs.getString("codigo_producto"));
 						bean.setDescripProducto(rs.getString("descripcion_larga"));
 						bean.setUnidadMedida(rs.getString("descripcion"));
 						bean.setCantidad("0");
-						listaCodigo.add(bean);
+						resultado.add(bean);
 					}
 					
 					
@@ -74,33 +70,50 @@ public class ImplementaAutoCompletar implements InterfaceAutoCompletar{
 			}else{
 				conectar = new ConectarDB().getConnection();
 				ps = conectar.prepareCall("{call stp_ProductoAutoCompletacion(?,?,?,?)}");
-				ps.setString(1, codigo);
+				int codS,codE;
+				codS = Integer.parseInt(codigoS);
+				codE = Integer.parseInt(codigoE);
+				ps.setString(1, codigoP);
 				ps.setInt(2, codS);
-				ps.setString(3, codB);
+				ps.setString(3, codigoB);
 				ps.setInt(4, codE);
 				rs = ps.executeQuery();
 				while(rs.next()){ 
-					bean = new BeanAutoCompletar();
+					DatosProducto bean = new DatosProducto();
 					if(rs.getString("conteo2")!=null){
 						bean.setCodigoProducto(rs.getString("codigo_producto"));
 						bean.setDescripProducto(rs.getString("descripcion_larga"));
 						bean.setUnidadMedida(rs.getString("descripcion"));
 						bean.setCantidad(rs.getString("conteo2"));
-						listaCodigo.add(bean);
+						resultado.add(bean);
 					}else{
 						bean.setCodigoProducto(rs.getString("codigo_producto"));
 						bean.setDescripProducto(rs.getString("descripcion_larga"));
 						bean.setUnidadMedida(rs.getString("descripcion"));
 						bean.setCantidad("0");
-						listaCodigo.add(bean);
+						resultado.add(bean);
 					}
 					
 					
 				}
 			}
-		}catch(SQLException ex){
-			System.out.println("Error: " + ex);
-		}
-		return listaCodigo;
+			conectar.close();
+			ps.close();
+			rs.close();
+			
+			
+		}catch(SQLException e){}
+		return resultado;
 	}
+@Override
+public  DatosProducto obtenerDatosProducto(DatosProducto datos) {
+	// TODO Auto-generated method stub
+	
+	ObtenerToma toma = new ObtenerToma();
+	estado = toma.numToma(datos.getNoToma());
+	return null;
+}
+
+	
+
 }

@@ -7,8 +7,22 @@
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ include file="includes/header.jsp" %>
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta lang="es">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="img/inventario.ico">
+        <title>Diferencias</title>
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
+        
+        <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+		
+        
+    </head>
+    <body>
  
 		<!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
@@ -24,9 +38,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="agregar.jsp">Toma Inventario</a></li>
-            <li class="active"><a href="buscar.jsp">Inventario</a></li>
-            <li><a href="admin.jsp">Inventario por Toma</a></li>
+            <li><a href="agregar.jsp">Toma 1</a></li>
+            <li><a href="agregar2.jsp">Toma 2</a></li>
+            <li class="active"><a href="buscar.jsp">Productos Contados</a></li>
+            <li><a href="admin.jsp">Auditoria</a></li>
             <li><a href="diferencia.jsp">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
@@ -46,10 +61,8 @@
         
 	
 	
-	<div class="table-responsive col-sm-12 col-md-12 col-lg-12">
-		<table  id="datosBusqueda" class="table table-bordered table-striped">
-		<!-- <table id="datosBusqueda" data-toggle="table" data-classes="table table-hover table-bordered" data-striped="true" data-row-style="rowStyle" data-search="true" data-pagination="true" data-show-columns="true"> -->
-		</table>
+	<div id="tablaDatos" >
+		
 	</div>
 	
 	
@@ -179,5 +192,22 @@
 		</div><!-- Dialog  -->
 	</div><!--Ventana Pop Up Buscar Producto -->
 	
-        
-<%@ include file="includes/footer.jsp" %>
+     <footer>
+	    	<h5 class="text-center"> ${usuarioGlobal}</h5>    
+	    </footer>
+	    
+	    
+	    <script type="text/javascript" src="js/jquery-1.5.min.js"></script>
+	    <script type="text/javascript">
+	    	var $jq = jQuery.noConflict();
+		</script>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	    
+	    <script src="js/bootstrap.min.js"></script>
+	    
+	    <script src="js/script.js"></script>
+	    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+	    <script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	</body>
+</html>
+

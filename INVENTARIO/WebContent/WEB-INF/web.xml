@@ -165,4 +165,14 @@
     <servlet-name>EsMuestra</servlet-name>
     <url-pattern>/EsMuestra</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Conteo2</display-name>
+    <servlet-name>Conteo2</servlet-name>
+    <servlet-class>com.millenium.inventario.servlet.Conteo2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Conteo2</servlet-name>
+    <url-pattern>/Conteo2</url-pattern>
+  </servlet-mapping>
 </web-app>

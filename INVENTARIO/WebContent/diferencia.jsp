@@ -258,7 +258,6 @@
 	    
 	    <script src="js/bootstrap.min.js"></script>
 	    <script src="js/bootstrap-table.js"></script>
-	    <script src="js/script.js"></script>
-    
+	    <script src="js/scriptDiferencia.js"></script>
 	</body>
 </html>

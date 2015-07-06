@@ -3,7 +3,8 @@ package com.millenium.inventario.bean;
 public class BeanProductosDiferencia {
 	
 	public BeanProductosDiferencia(String codP, String descP, String cantidad,
-			String uniP, String bodega, String seccion, String estanteria){
+			String uniP, String bodega, String seccion, String estanteria,
+			String cb, String cs, String ce){
 		this.setBodega(bodega);
 		this.setCantidad(cantidad);
 		this.setCodP(codP);
@@ -11,6 +12,9 @@ public class BeanProductosDiferencia {
 		this.setEstanteria(estanteria);
 		this.setSeccion(seccion);
 		this.setUniP(uniP);
+		this.setCb(cb);
+		this.setCs(cs);
+		this.setCe(ce);
 	}
 	public BeanProductosDiferencia(){}
 	
@@ -23,6 +27,9 @@ public class BeanProductosDiferencia {
 	private String estanteria;
 	private String bodega;
 	private String cantidad;
+	private String cb;
+	private String cs;
+	private String ce;
 	
 	public String getCodP() {
 		return codP;
@@ -71,6 +78,24 @@ public class BeanProductosDiferencia {
 	}
 	public void setCantidad(String cantidad) {
 		this.cantidad = cantidad;
+	}
+	public String getCb() {
+		return cb;
+	}
+	public void setCb(String cb) {
+		this.cb = cb;
+	}
+	public String getCs() {
+		return cs;
+	}
+	public void setCs(String cs) {
+		this.cs = cs;
+	}
+	public String getCe() {
+		return ce;
+	}
+	public void setCe(String ce) {
+		this.ce = ce;
 	}
 	
 	

@@ -8,6 +8,7 @@
         <link rel="icon" href="img/inventario.ico">
         <title>Toma de Inventario</title>
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="css/bootstrap-table.css">
         <link type="text/css" rel="stylesheet" href="css/style.css">
         
     </head>

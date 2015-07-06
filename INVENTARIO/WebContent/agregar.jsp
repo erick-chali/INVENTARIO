@@ -6,9 +6,22 @@
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<%@ include file="includes/header.jsp" %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta lang="es">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="img/inventario.ico">
+        <title>Diferencias</title>
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+        
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
+		
+        
+    </head>
+    <body>
 	<!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -23,9 +36,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="agregar.jsp">Toma Inventario</a></li>
-            <li><a href="buscar.jsp">Inventario</a></li>
-            <li><a href="admin.jsp">Inventario por Toma</a></li>
+            <li class="active" id="toma1"><a href="agregar.jsp" class="active" id="conteo1">Toma 1</a></li>
+            <li ><a href="agregar2.jsp">Toma 2</a></li>
+            <li ><a href="buscar.jsp">Productos Contados</a></li>
+            <li><a href="admin.jsp">Auditoria</a></li>
             <li><a href="diferencia.jsp">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
@@ -39,8 +53,8 @@
     </nav>
     <center><img alt="Instalaciones Modernas" src="img/s.jpg"></center>
     	<h5 class="text-left" id="hoy"></h5>
-        <h4 class="text-center">${textoToma}</h4>
-        <h4 class="text-center"> No.: ${tomaGlobal} </h4>
+        <h4 class="text-center" id="txtToma">${textoToma}</h4>
+        <h4 class="text-center" id="txtNum"> No.: ${tomaGlobal} </h4>
         <div id="tope"></div>
     
     <div class="panel panel-default">
@@ -121,19 +135,19 @@
                             
                             
                             <label for="descripcion" class="text-right">Descripción</label>
-                            <input class="form-control"  type="text" id="descripcion" name="descripcion" placeholder="Descripción" readonly>
+                            <input class="form-control"  type="text" id="descripcion" name="descripcion" placeholder="Descripción" disabled>
                             <label for="unidad">Unidad de Medida</label>
-                            <input class="form-control" type="text" id="unidad" name="unidad" placeholder="Unidad Medida" readonly>  
+                            <input class="form-control" type="text" id="unidad" name="unidad" placeholder="Unidad Medida" disabled>  
                             
                                 
                         </div>
                         <div class="col-sm-4 col-md-4">
                             <label for="cantidadActual" class="text-right">Cantidad Actual</label>
-                            <input class="form-control" type="text" id="cantidadActual" name="cantidad" placeholder="Cantidad Actual" readonly>
+                            <input class="form-control" type="text" id="cantidadActual" name="cantidad" placeholder="Cantidad Actual" disabled>
                             <label for="cantidad" class="text-right">Cantidad Producto</label>
                             <input class="form-control" type="number" id="cantidad" placeholder="*Cantidad" >
                             <label for="total" class="text-right">Total</label>
-                            <input class="form-control" type="text" id="cantidadTotal" placeholder="*Cantidad" readonly>
+                            <input class="form-control" type="text" id="cantidadTotal" placeholder="*Cantidad" disabled>
                         </div>
                         <div class="col-sm-12 col-md-12">
                         	<button class="btn btn-default" type="button" id="tomarInventario" style="background-color: #CCEEFF">Agregar a Inventario</button>
@@ -159,8 +173,19 @@
                     	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </button>
                     <div id="tablaPOP">
-	                    <table id="popDatosBusqueda" class="table table-hover" style="margin-top: 10px;">
-	                    	
+	                    <table id="popDatosBusqueda" class="display">
+	                    	<thead>
+								<tr>
+									<th  >Codigo Producto</th>
+									<th  >Descripcion</th>
+									<th >Unidad</th>
+									<th >Unidad</th>
+									<th >Cantidad</th>
+								</tr>
+							</thead>
+							<tbody id="cuerpoDatosBusqueda">
+							
+							</tbody>
 	                    </table>
 	            	</div>
 				</div><!-- Componentes  -->
@@ -168,5 +193,20 @@
 		</div><!-- Dialog  -->
 	</div><!--Ventana Pop Up Buscar Producto -->
     
+	<footer>
+    	<h5 class="text-center"> ${usuarioGlobal}</h5>
+    </footer>
     
-<%@ include file="includes/footer.jsp" %>
+    
+    <script type="text/javascript" src="js/jquery-1.5.min.js"></script>
+	<script type="text/javascript">
+		var $jq = jQuery.noConflict();
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/scriptConteo1.js"></script>
+	<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+</body>
+</html>
+		

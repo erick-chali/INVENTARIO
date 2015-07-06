@@ -1,9 +1,11 @@
 package com.millenium.inventario.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.millenium.inventario.bean.BeanAutoCompletar;
 import com.millenium.inventario.bean.BeanBuscaProducto;
+import com.millenium.inventario.dao.DatosProducto;
+import com.millenium.inventario.dao.DatosProductoRemoto;
+import com.millenium.inventario.dao.DatosProductoResultado;
 import com.millenium.inventario.dao.ImplementaAutoCompletar;
 import com.millenium.inventario.dao.ImplementaBuscaProducto;
 import com.millenium.inventario.dao.InterfaceAutoCompletar;
@@ -24,10 +29,11 @@ import com.millenium.inventario.dao.InterfaceAutoCompletar;
  */
 public class AutocompletarCodigo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private String codp,code,cods,codb,toma;
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	
+    private String codp,codb,toma,code,cods;
+//    private int code,cods;
+    @EJB
+    static DatosProductoResultado miBean;
     public AutocompletarCodigo() {
         super();
         // TODO Auto-generated constructor stub
@@ -38,54 +44,52 @@ public class AutocompletarCodigo extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		codp = (String) request.getParameter("codP");
-		codb = (String) request.getParameter("codb");
-		cods = (String) request.getParameter("cods");
-		code = (String) request.getParameter("code");
-		toma = (String) request.getParameter("tomaGlobal");
-//		BeanAutoCompletar bean = new BeanAutoCompletar();
-//		InterfaceAutoCompletar iface = new ImplementaAutoCompletar();
+		doPost(request, response);
 		
-//		bean.setCodigoProducto(request.getParameter("codP"));
-//		bean.setNoToma(request.getParameter("tomaGlobal"));
-//		bean.setCodigoBod(request.getParameter("codb"));
-//		bean.setCodigoEst(request.getParameter("code"));
-//		bean.setCodigoSec(request.getParameter("cods"));
-//		bean = iface.obtenerProducto(bean);
-//		ArrayList<BeanAutoCompletar> datos = new ArrayList<BeanAutoCompletar>();
-//		datos = ImplementaAutoCompletar.obtenerProductos();
-//		
-//		Gson gson = new Gson();
-//		JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<BeanAutoCompletar>>(){}.getType());
-//		JsonArray arreglo = elemento.getAsJsonArray();
-		response.setContentType("application/json");
-		response.getWriter().print(operar(codp,toma,codb,code,cods));
 		
 	}
-	protected JsonArray operar(String codP, String numToma, String codB, String codE, String codS){
-		BeanAutoCompletar bean = new BeanAutoCompletar();
-		InterfaceAutoCompletar iface = new ImplementaAutoCompletar();
-		
-		bean.setCodigoProducto(codP);
-		bean.setNoToma(numToma);
-		bean.setCodigoBod(codB);
-		bean.setCodigoSec(codS);
-		bean.setCodigoEst(codE);
-		bean = iface.obtenerProducto(bean);
-		
-		ArrayList<BeanAutoCompletar> datos = new ArrayList<BeanAutoCompletar>();
-		datos = ImplementaAutoCompletar.obtenerProductos();
-		
-		Gson gson = new Gson();
-		JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<BeanAutoCompletar>>(){}.getType());
-		JsonArray arreglo = elemento.getAsJsonArray();
-		return arreglo;
-	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+//		// TODO Auto-generated method stub
+//		codp = (String) request.getParameter("codP");
+//		codb = (String) request.getParameter("codb");
+//		cods = ((String) request.getParameter("cods"));
+//		code = ((String) request.getParameter("code"));
+		toma = (String) request.getSession().getAttribute("tomaGlobal");
+		
+		request.getSession().setAttribute("codp", request.getParameter("codP"));
+		request.getSession().setAttribute("codb", request.getParameter("codb"));
+		request.getSession().setAttribute("cods", request.getParameter("cods"));
+		request.getSession().setAttribute("code", request.getParameter("code"));
+		DatosProducto bean = null;
+		bean = new DatosProducto();
+		bean.setNoToma(toma);
+		
+		DatosProductoRemoto remoto = new DatosProductoResultado();
+		bean = new DatosProducto();
+		bean = remoto.obtenerDatosProducto(bean);
+		
+		ArrayList<DatosProducto> datos = null;
+		datos = new ArrayList<DatosProducto>();
+		datos = DatosProductoResultado.obtenerDatos(
+				(String) request.getSession().getAttribute("codp"), 
+				(String) request.getSession().getAttribute("cods"), 
+				(String) request.getSession().getAttribute("codb"), 
+				(String) request.getSession().getAttribute("code")
+				);
+//		
+		Gson gson = new Gson();
+		JsonElement elemento = gson.toJsonTree(datos, new TypeToken<List<DatosProducto>>(){}.getType());
+		JsonArray arreglo = elemento.getAsJsonArray();
+		bean = null;
+		datos = null;
+		response.setContentType("application/json");
+		
+		response.getWriter().print(arreglo);
+		
 	}
 
 }

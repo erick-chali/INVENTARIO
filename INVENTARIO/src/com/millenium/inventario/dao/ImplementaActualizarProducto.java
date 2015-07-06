@@ -53,16 +53,16 @@ public class ImplementaActualizarProducto implements InterfaceActualizarProducto
 			ps=null;
 			rs = null;
 			ps = null;
-			boolean existente = false;
-			con = new ConectarDB().getConnection();
-			stmt = con.prepareCall("{call stp_verficarProductoUsuario(?,?)}");
-			stmt.setString(1, obj.getCodigoProducto());
-			stmt.setString(2, obj.getUsuario());
-			rs = stmt.executeQuery();
-			if(rs.next()){existente=true;}else{existente=false;}
-			rs=null;
-			stmt=null;
-			if(existente){
+//			boolean existente = false;
+//			con = new ConectarDB().getConnection();
+//			stmt = con.prepareCall("{call stp_verficarProductoUsuario(?,?)}");
+//			stmt.setString(1, obj.getCodigoProducto());
+//			stmt.setString(2, obj.getUsuario());
+//			rs = stmt.executeQuery();
+//			if(rs.next()){existente=true;}else{existente=false;}
+//			rs=null;
+//			stmt=null;
+//			if(existente){
 				if(toma==2){
 					stmt=null;
 					bean.setExiste(1);
@@ -87,6 +87,7 @@ public class ImplementaActualizarProducto implements InterfaceActualizarProducto
 					bean.setNotificacion("Producto Actualizado");
 					stmt=null;
 					rs = null;
+					con.close();
 				}else if(toma==3){
 					stmt=null;
 					bean.setExiste(1);
@@ -120,10 +121,10 @@ public class ImplementaActualizarProducto implements InterfaceActualizarProducto
 					con.close();
 					bean.setNotificacion("El estado de la Toma es el incorrecto");
 				}
-			}else{
-				bean.setExiste(0);
-				bean.setNotificacion("No puede editar un producto que su usuario no ha ingresado");
-			}
+//			}else{
+//				bean.setExiste(0);
+//				bean.setNotificacion("No puede editar un producto que su usuario no ha ingresado");
+//			}
 		} catch (SQLException sqlex) {
 			// TODO: handle exception
 			System.out.println("Error: " + sqlex.getMessage());

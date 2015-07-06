@@ -1,4 +1,9 @@
 $(document).ready(function(){
+	
+	function verficarUsuario(){
+		var op = $('a.active').get(0).id;
+		alert(op);
+	}
 	cargarTabla();
 	var d = new Date();
     var month = d.getMonth()+1;
@@ -75,7 +80,25 @@ $(document).ready(function(){
 });
   
   
-  
+//  $jq("table[id$='datosToma2'] td:nth-child(3)").live('click',function(event){
+  	$jq("button[id$='conteo2']").live('click',function(event){
+	
+	  var $td= $(this).closest('tr').children('td');
+	  var $td2= $(this).closest('tr').children('td').children('input');
+	  $.post('Conteo2', {
+			codigop: $td.eq(0).text(),
+			codigob: $td.eq(3).text(),
+			codigoe: $td.eq(5).text(),
+			codigos: $td.eq(4).text(),
+			unidad: $('#unidad').val(),
+			cantidad: $td2.eq(0).val()
+		}, function(responseText) {
+			$td.eq(1).text(responseText)
+			$td2.eq(0).val('0');
+		});
+	  
+		
+	});
   //para darle accion a la tabla que se carga automaticamente en busqueda
   $jq("table[id$='datosBusqueda'] td:nth-child(1)").live('click',function(event) 
 		{  
@@ -109,50 +132,14 @@ $(document).ready(function(){
 			event.preventDefault();  
 			var $td= $(this).closest('tr').children('td');
 			
-			var codProd = $td.eq(0).text();  
-			var descProd = $td.eq(1).text();
-			var descUnidad = $td.eq(3).text();
-			
-			$("#codigoProducto").val(codProd); 
-			$("#descripcion").val(descProd); 
-			$("#unidad").val(descUnidad);
-
-			var codEst = $("#estanteria").val();
-			var codSec = $("#seccion").val();
-			var codProd = $("#codigoProducto").val();
-			var codBod = $("#bodega").val();
-			$.get('CantidadActual',{codE:codEst,codS:codSec,codP:codProd,codB:codBod},function(responseJson) {
-				if(responseJson!=null){
-			       $.each(responseJson, function(key, value) {
-			            $('#cantidadActual').val(value['conteo']);
-			       });
-				}
-			   });
+			$("#codigoProducto").val($td.eq(0).text()); 
+			$("#descripcion").val($td.eq(1).text()); 
+			$("#unidad").val($td.eq(3).text());
+			$("#cantidadActual").val($td.eq(4).text());
 			$("#popBuscaProd").modal("toggle");
 			}
 			
 		);
-	//tomar codigo bodega y codigo producto tabla: datosDiferencia
-//	$jq("table[id$='datosDiferencia'] td:nth-child(1)").live('click',function(event) 
-//	{
-//	//Para evitar que el link actue.  
-//	event.preventDefault();  
-//	var $td= $(this).closest('tr').children('td');
-//	
-//	var codProd = $td.eq(0).text();  
-//	var codBodega =$td.eq(3).text();
-//	$('#popProductosDiferencias tr').each(function(){
-//		 $(this).remove();
-//	  });
-//	$.get('CargarProductosDiferencia',
-//			{codigoP:codProd,codigoB:codBodega},
-//			function(responseText) {
-//		   
-//		   });
-//		  $("#popProductosDiferencias").show();
-//	}
-//	
-//);
 	
 	$jq("table[id$='datosDiferencia'] td:nth-child(1)").live('click',function(event) 
 			{
@@ -276,18 +263,20 @@ $(document).ready(function(){
 			if(bodega.value == null || bodega.value == "" || seccion.value == null || seccion.value == "" || estanteria.value == null || estanteria.value == ""){
 				$("#notificacion").text("Necesita seleccionar bodega, seccion y estanteria");
 			}else{
-				var cod = $("#codigoProducto").val();
-				var codB = $("#bodega").val();
-				var codE = $("#estanteria").val();
-				var codS = $("#seccionA").val();
-				$.get('AutocompletarCodigo',{codP:cod,codb:codB,code:codE,cods:codS},function(responseJson) {
+				
+				$.get('AutocompletarCodigo',{
+					codP:$("#codigoProducto").val(),
+					codb:$("#bodega").val(),
+					code:$("#estanteria").val(),
+					cods:$("#seccionA").val()
+					},function(responseJson) {
 					   if(responseJson!=null){
 					       $.each(responseJson, function(key, value) {
 					            $("#codigoProducto").val(value['codigoProducto']);
 					            $("#descripcion").val(value['descripProducto']);
 					            $("#unidad").val(value['unidadMedida']);
 					            $("#cantidadActual").val(value['cantidad']);
-							       
+							    
 					       });
 					       sumarCantidad();
 					       }
@@ -299,6 +288,52 @@ $(document).ready(function(){
 		}
 	});
 	
+	//buscar producto toma 2
+	$("#codigoToma2").keydown(function(e){
+		if(e.keyCode==13 || e.keyCode==9){
+			var codP = $(this).val();
+			var texto = $("#txtToma").text();
+			
+			var codB = separarTexto(texto);
+			$.get('CargarProductosDiferencia',
+					{codigoP:codP,codigoB:codB},
+					function(responseJson) {
+				   if(responseJson!=null){
+					   $('#datosToma2 tr').each(function(){
+							 $(this).remove();
+						  });
+				       var table1 = $("#datosToma2");
+				       var head = $("<thead></thead>");
+				       var rowHead = $("<tr> <th></th> <th></th> <th></th> <th></th> <th></th> <th></th> </tr>");
+				       rowHead.children().eq(0).text("Codigo Producto");
+				       rowHead.children().eq(1).text("Cantidad Actual");
+				       rowHead.children().eq(2).text("Cantidad");
+				       rowHead.children().eq(3).text("Bodega");
+				       rowHead.children().eq(4).text("Seccion");
+				       rowHead.children().eq(5).text("Estanteria");
+				       
+				       rowHead.appendTo(head);
+				       head.appendTo(table1);
+				       var tbody = $("<tbody></tbody>");
+				       
+				       $.each(responseJson, function(key,value) {
+				            var rowNew = $("<tr> <td><a href='#'></a></td> <td></td> <td><input type='number' id='cantidad' value='0'><button  type='button' id='conteo2'>Contar</button></td> <td></td> <td></td> <td></td></tr>");
+				               rowNew.children().children().eq(0).text(value['codP']);
+				               rowNew.children().eq(1).text(parseFloat(value['cantidad']).toFixed(1));
+				               rowNew.children().eq(3).text(value['bodega']);
+				               rowNew.children().eq(4).text(value['seccion']);
+				               rowNew.children().eq(5).text(value['estanteria']);
+				               rowNew.appendTo(tbody);
+				               $("#codigoToma2").val(value['codP'])
+				               $("#descripcion").val(value['descP']);
+				               $("#unidad").val(value['uniP']);
+				       });
+				       tbody.appendTo(table1);
+				       }
+				   });
+				  $("#datosToma2").show();
+		}
+	});
 	
 	//funcion autocompletar al presionar tab Buscar Producto
 	$("#codigoProducto1").keydown(function(e){
@@ -431,17 +466,19 @@ $(document).ready(function(){
 	function cargarTabla(){
 		//limpiar y volver a cargar la tabla
 		//cargar tabla al cargar pagina en buscar
-		  $('#datosBusqueda tr').each(function(){
-			  $(this).remove();
-		  });
+//		  $('#datosBusqueda tr').each(function(){
+//			  $(this).remove();
+//		  });
 		  $.get('CargarProductos',function(responseJson) {
 			   if(responseJson!=null){
-			       $("#datosBusqueda").find("tr:gt(0)").remove();
-			       var table1 = $("#datosBusqueda");
+//			       $("#datosBusqueda").find("tr:gt(0)").remove();
+			       var contenedor = $("#tablaDatos");
+			       var table1 = $("<table id='datosBusqueda' class='table table-striped table-bordered table-condensed'></table>");
 			       var thead = $("<thead></thead>");
-			       thead.appendTo(table1);
-			       var rowHead = $("<tr> <th ></th> <th></th> <th></th> <th></th> <th></th> " +
-			       						"<th ></th> <th></th> <th></th> <th></th> <th></th> </tr>");
+			       
+			       var rowHead = $("<tr> <th ></th> <th ></th> <th ></th> <th ></th> <th ></th> " +
+			       						"<th ></th> <th ></th> <th ></th> <th ></th> <th ></th> </tr>");
+			       var tbody=$("<tbody></tbody>");
 			       rowHead.children().eq(0).text("Codigo Producto");
 			       rowHead.children().eq(1).text("Descripcion");
 			       rowHead.children().eq(2).text("Cantidad");
@@ -453,14 +490,16 @@ $(document).ready(function(){
 			       rowHead.children().eq(8).text("Cod. Sec.");
 			       rowHead.children().eq(9).text("Cod. Est.");
 			       
+			       
 			       rowHead.appendTo(thead);
-			       var tbody=$("<tbody></tbody>")
+			       table1.appendTo(contenedor);
+			       thead.appendTo(table1);
 			       tbody.appendTo(table1);
 			       $.each(responseJson, function(key,value) {
 			    	   var rowNew = $("<tr><td><a href='#' data-toggle='modal' data-target='#popEditar'></a></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>");
 			               rowNew.children().children().eq(0).text(value['codP']);
 			               rowNew.children().eq(1).text(value['descP']);
-			               rowNew.children().eq(2).text(value['conteo']);
+			               rowNew.children().eq(2).text(parseInt(value['conteo']));
 			               rowNew.children().eq(3).text(value['unidad']);
 			               rowNew.children().eq(4).text(value['descB']);
 			               rowNew.children().eq(5).text(value['descS']);
@@ -468,12 +507,20 @@ $(document).ready(function(){
 			               rowNew.children().eq(7).text(value['codB']);
 			               rowNew.children().eq(8).text(value['codS']);
 			               rowNew.children().eq(9).text(value['codE']);
-			               rowNew.appendTo(tbody);
+			               rowNew.appendTo($("table tbody"));
 			       });
+			       $('#datosBusqueda').dataTable( {
+			    	   "scrollY" : 200,
+			    	   "scrollX" : true,
+				        "language": {
+				            "url": "//cdn.datatables.net/plug-ins/1.10.7/i18n/Spanish.json"   	
+				        }
+			       	
+				    });
+			       
 			       }
-			   
 			   });
-		  
+		  		
 	}
 	
 	//funcion cuando autocompletar on focus
@@ -504,16 +551,17 @@ $(document).ready(function(){
     });
 	 
 	//funcion split
-	function separarCodigo(codigo){
+	function separarTexto(codigo){
 		var cadena = codigo;
 	    var particiones = cadena.split(' ');
 	    
-	    return particiones[0];
+	    return particiones[4];
 	}
 	
 	$( "input[type=text]" ).focus(function() {
 		$( this ).css({'background-color':'F5FFD6'});
 	});
+	
 	function esMuestra(){
 		var opcion = $('#estanteria');
 		var estanteriaID = opcion.val();

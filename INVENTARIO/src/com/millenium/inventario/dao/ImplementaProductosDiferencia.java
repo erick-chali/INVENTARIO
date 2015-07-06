@@ -39,20 +39,32 @@ public class ImplementaProductosDiferencia implements InterfaceProductosDiferenc
 			rs = stmt.executeQuery();
 //			if(rs!=null){
 				while(rs.next()){
-//					if(rs.getString("conteo2")!=null){
+					if(rs.getString("conteo2")!=null){
+					
 						BeanProductosDiferencia bean = new BeanProductosDiferencia();
 						bean.setCodP(rs.getString("codigo_producto"));
-						System.out.println(rs.getString("codigo_producto"));
 						bean.setDescP(rs.getString("descripcion_larga"));
-						bean.setEstanteria(rs.getString("estanteria_ID"));
-						System.out.println(rs.getString("estanteria_ID"));
-						bean.setSeccion(rs.getString("seccion_ID"));
-						System.out.println(rs.getString("seccion_ID"));
+						bean.setEstanteria(rs.getString("Estanteria"));
+						bean.setSeccion(rs.getString("Seccion"));
 						bean.setBodega(rs.getString("codigo_bodega"));
 						bean.setCantidad(rs.getString("conteo2"));
 						bean.setUniP(rs.getString("descripcion"));
+						bean.setCe(rs.getString("estanteria_ID"));
+						bean.setCs(rs.getString("seccion_ID"));
 						lista.add(bean);
-//					}
+					}else{
+						BeanProductosDiferencia bean = new BeanProductosDiferencia();
+						bean.setCodP(rs.getString("codigo_producto"));
+						bean.setDescP(rs.getString("descripcion_larga"));
+						bean.setEstanteria(rs.getString("Estanteria"));
+						bean.setSeccion(rs.getString("Seccion"));
+						bean.setBodega(rs.getString("codigo_bodega"));
+						bean.setCantidad("0");
+						bean.setUniP(rs.getString("descripcion"));
+						bean.setCe(rs.getString("estanteria_ID"));
+						bean.setCs(rs.getString("seccion_ID"));
+						lista.add(bean);
+					}
 					
 					
 				}
