@@ -175,4 +175,14 @@
     <servlet-name>Conteo2</servlet-name>
     <url-pattern>/Conteo2</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Permisos</display-name>
+    <servlet-name>Permisos</servlet-name>
+    <servlet-class>com.millenium.inventario.servlet.Permisos</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Permisos</servlet-name>
+    <url-pattern>/Permisos</url-pattern>
+  </servlet-mapping>
 </web-app>

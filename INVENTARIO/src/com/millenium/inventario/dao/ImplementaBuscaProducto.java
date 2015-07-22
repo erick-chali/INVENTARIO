@@ -113,29 +113,23 @@ public class ImplementaBuscaProducto implements InterfaceBuscaProducto{
 					rs = ps.executeQuery();
 						while(rs.next()){
 							BeanBuscaProducto bean = new BeanBuscaProducto();
-//							if(rs.getString("conteo1")!=null){
+							if(rs.getString("conteo1")!=null){
 								bean.setCodigoProducto(rs.getString("codigo_producto"));
 								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
 								bean.setUnidadMedida(rs.getString("unidad_inventario"));
 								bean.setDescripcionUnidad(rs.getString("descripcion"));
 								bean.setCantidad(rs.getString("conteo1"));
-								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
-										+ " " + bean.getCantidad()
-										);
-								listaDatos.add(bean);
 								
-//							}else{
-//								bean.setCodigoProducto(rs.getString("codigo_producto"));
-//								
-//								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
-//								bean.setUnidadMedida(rs.getString("unidad_inventario"));
-//								bean.setDescripcionUnidad(rs.getString("descripcion"));
-//								bean.setCantidad("0");
-//								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
-//										+ " " + bean.getCantidad()
-//										);
-//								listaDatos.add(bean);
-//							}
+								listaDatos.add(bean);
+							}else{
+								bean.setCodigoProducto(rs.getString("codigo_producto"));
+								bean.setDescripcionProducto(rs.getString("descripcion_larga"));
+								bean.setUnidadMedida(rs.getString("unidad_inventario"));
+								bean.setDescripcionUnidad(rs.getString("descripcion"));
+								bean.setCantidad("0");
+								
+								listaDatos.add(bean);
+							}
 						}
 						
 						conectar.close();
@@ -158,9 +152,7 @@ public class ImplementaBuscaProducto implements InterfaceBuscaProducto{
 								bean.setUnidadMedida(rs.getString("unidad_inventario"));
 								bean.setDescripcionUnidad(rs.getString("descripcion"));
 								bean.setCantidad(rs.getString("conteo2"));
-								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
-										+ " " + bean.getCantidad()
-										);
+								
 								listaDatos.add(bean);
 							}else{
 								bean.setCodigoProducto(rs.getString("codigo_producto"));
@@ -168,9 +160,7 @@ public class ImplementaBuscaProducto implements InterfaceBuscaProducto{
 								bean.setUnidadMedida(rs.getString("unidad_inventario"));
 								bean.setDescripcionUnidad(rs.getString("descripcion"));
 								bean.setCantidad("0");
-								System.out.println(bean.getCodigoProducto() + " " + bean.getDescripcionProducto()
-										+ " " + bean.getCantidad()
-										);
+								
 								listaDatos.add(bean);
 							}
 							

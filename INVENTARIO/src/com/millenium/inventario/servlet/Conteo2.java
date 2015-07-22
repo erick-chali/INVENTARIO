@@ -40,6 +40,7 @@ public class Conteo2 extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("Entro a conteo 2");
 		String toma = (String) request.getSession().getAttribute("tomaGlobal");
 		String userID = (String) request.getSession().getAttribute("userId");
 		request.getSession().setAttribute("codp", (String) request.getParameter("codigop"));
@@ -48,7 +49,14 @@ public class Conteo2 extends HttpServlet {
 		request.getSession().setAttribute("cods", (String) request.getParameter("codigos"));
 		request.getSession().setAttribute("unidad", (String) request.getParameter("unidad"));
 		request.getSession().setAttribute("cantidad", (String) request.getParameter("cantidad"));
-		
+		System.out.println((String) request.getSession().getAttribute("tomaGlobal"));
+		System.out.println((String) request.getSession().getAttribute("userId"));
+		System.out.println((String) request.getSession().getAttribute("codp"));
+		System.out.println((String) request.getSession().getAttribute("codb"));
+		System.out.println((String) request.getSession().getAttribute("code"));
+		System.out.println((String) request.getSession().getAttribute("cods"));
+		System.out.println((String) request.getSession().getAttribute("unidad"));
+		System.out.println((String) request.getSession().getAttribute("cantidad"));
 		BeanActualizarProducto bean = null;
 		bean = new BeanActualizarProducto();
 		bean.setNoToma(toma);

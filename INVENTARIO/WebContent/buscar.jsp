@@ -38,11 +38,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="agregar.jsp">Toma 1</a></li>
-            <li><a href="agregar2.jsp">Toma 2</a></li>
-            <li class="active"><a href="buscar.jsp">Productos Contados</a></li>
-            <li><a href="admin.jsp">Auditoria</a></li>
-            <li><a href="diferencia.jsp">Diferencias</a></li>
+            <li><a href="agregar.jsp" id="conteo1">Toma 1</a></li>
+            <li><a href="agregar2.jsp" id="conteo2">Toma 2</a></li>
+            <li class="active"><a href="buscar.jsp" id="inventario">Inventario</a></li>
+            <li><a href="admin.jsp" id="auditoria">Auditor&iacute;a</a></li>
+            <li><a href="diferencia.jsp" id="diferencia">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
           <ul class="nav navbar-nav navbar-right">

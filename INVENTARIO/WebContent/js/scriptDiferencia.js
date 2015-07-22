@@ -2,6 +2,21 @@
 
    
    $(function() {
+	   setTimeout(function(){
+		   verificarP1();
+	    }, 100);
+	   setTimeout(function(){
+		   verificarP2();
+	    }, 200);
+	   setTimeout(function(){
+		   verificarP3();
+	    }, 300);
+	   setTimeout(function(){
+		   verificarP4();
+	    }, 400);
+	   setTimeout(function(){
+		   verificarP5();
+	    }, 500);
 	   /**Darle accion a los productos y que los muestre en todas las ubicaciones*/
 	   $jq("table[id$='datosDiferencia'] td:nth-child(1)").live('click',function(event) 
 				{
@@ -110,6 +125,83 @@
    });/**Fin de document.ready()*/
    
    /**FUNCIONES UTLIZADAS*/
+ //funcion que verifica los permisos del usuario
+   function verificarP1(id){
+	   $.get('Permisos',{
+			opcion:$('#conteo1').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) { 
+						if(parseInt(value['permiso'])==1){
+							$('#conteo1').show();
+						}else{
+							$('#conteo1').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP2(id){
+	   $.get('Permisos',{
+			opcion:$('#conteo2').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							$('#conteo2').show();
+						}else{
+							$('#conteo2').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP3(id){
+	   $.get('Permisos',{
+			opcion:$('#inventario').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							$('#inventario').show();
+						}else{
+							$('#inventario').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP4(id){
+	   $.get('Permisos',{
+			opcion:$('#auditoria').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							$('#auditoria').show();
+						}else{
+							$('#auditoria').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP5(id){
+	   $.get('Permisos',{
+			opcion:$('#diferencia').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							
+							$('#diferencia').show();
+						}else{
+							$('#diferencia').hide();
+						}
+				    });
+				}
+		});
+   }
    //funcion de sumar cantidades
    function sumarCantidad(){
 		var cantidadActual = parseInt($('#cantidadActual').val());

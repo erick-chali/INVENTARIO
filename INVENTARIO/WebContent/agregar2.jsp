@@ -35,11 +35,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="agregar.jsp">Primera Toma</a></li>
-            <li class="active"><a href="agregar.jsp">Segunda Toma</a></li>
-            <li><a href="buscar.jsp">Inventario</a></li>
-            <li><a href="admin.jsp">Inventario por Toma</a></li>
-            <li><a href="diferencia.jsp">Diferencias</a></li>
+            <li><a href="agregar.jsp" id="conteo1">Toma 1</a></li>
+            <li class="active"><a href="agregar2.jsp" id="conteo2">Toma 2</a></li>
+            <li><a href="buscar.jsp" id="inventario">Inventario</a></li>
+            <li><a href="admin.jsp" id="auditoria">Auditor&iacute;a</a></li>
+            <li><a href="diferencia.jsp" id="diferencia">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
           <ul class="nav navbar-nav navbar-right">

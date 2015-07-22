@@ -32,7 +32,7 @@
 	%>
 
 		<!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" id="barraNav">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -45,10 +45,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="agregar.jsp">Toma Inventario</a></li>
-            <li ><a href="buscar.jsp">Inventario</a></li>
-            <li class="active"><a href="admin.jsp">Inventario por Toma</a></li>
-            <li><a href="diferencia.jsp">Diferencias</a></li>
+            <li><a href="agregar.jsp" id="conteo1">Toma 1</a></li>
+            <li><a href="agregar2.jsp" id="conteo2">Toma 2</a></li>
+            <li ><a href="buscar.jsp" id="inventario">Inventario</a></li>
+            <li class="active"><a href="admin.jsp" id="auditoria">Auditor&iacute;a</a></li>
+            <li><a href="diferencia.jsp" id="diferencia">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -128,8 +129,10 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    
     <script src="js/bootstrap-table.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/scriptConteo1.js"></script>
     
 </body>
 </html>

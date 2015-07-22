@@ -16,14 +16,15 @@
         <title>Diferencias</title>
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
         
+        <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.css">
         <link type="text/css" rel="stylesheet" href="css/style.css">
-        <link type="text/css" rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.css">
+        
 		
         
     </head>
     <body>
 	<!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top">
+    <nav class="navbar navbar-default navbar-fixed-top" id="barraNav">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -37,17 +38,17 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class="active" id="toma1"><a href="agregar.jsp" class="active" id="conteo1">Toma 1</a></li>
-            <li ><a href="agregar2.jsp">Toma 2</a></li>
-            <li ><a href="buscar.jsp">Productos Contados</a></li>
-            <li><a href="admin.jsp">Auditoria</a></li>
-            <li><a href="diferencia.jsp">Diferencias</a></li>
+            <li ><a href="agregar2.jsp" id="conteo2">Toma 2</a></li>
+            <li ><a href="buscar.jsp" id="inventario">Inventario</a></li>
+            <li><a href="admin.jsp" id="auditoria">Auditor&iacute;a</a></li>
+            <li><a href="diferencia.jsp" id="diferencia">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a>Usuario Conectado: ${usuarioGlobal}</a></li>
             <li><a></a></li>
             <li><a href="Logout">Cerrar Sesión</a></li>
-          </ul>
+          </ul> 
         </div><!--/.nav-collapse -->
       </div>
     </nav>
@@ -157,8 +158,8 @@
             <div class="panel-footer"><h4 id="notificacion" class="alert alert-info" role="alert"></h4></div>
         </div>
     
-    <div class="modal fade" id="popBuscaProd">
-		<div class="modal-dialog">
+    <div class="modal fade " id="popBuscaProd">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button class="close" data-dismiss="modal">&times;</button>
@@ -207,6 +208,7 @@
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/scriptConteo1.js"></script>
 	<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.datatables.net/plug-ins/1.10.7/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 </body>
 </html>
 		

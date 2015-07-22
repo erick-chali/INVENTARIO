@@ -42,10 +42,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="agregar.jsp">Toma Inventario</a></li>
-            <li ><a href="buscar.jsp">Inventario</a></li>
-            <li><a href="admin.jsp">Inventario por Toma</a></li>
-            <li class="active"><a href="diferencia.jsp">Diferencias</a></li>
+            <li><a href="agregar.jsp" id="conteo1">Toma 1</a></li>
+            <li><a href="agregar2.jsp" id="conteo2">Toma 2</a></li>
+            <li ><a href="buscar.jsp" id="inventario">Inventario</a></li>
+            <li><a href="admin.jsp" id="auditoria">Auditor&iacute;a</a></li>
+            <li class="active"><a href="diferencia.jsp" id="diferencia">Diferencias</a></li>
             <!---agegar mas <li> para agregar mas opciones--->
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -62,7 +63,8 @@
         <h3 class="text-center">Diferencias</h3>
         <div id="tope"></div>
         
-		<table id="datosDiferencia" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-row-style="rowStyle" data-search="true" data-pagination="true" data-show-columns="true">
+        <div id="tablaDatosDiferencia">
+        	<table id="datosDiferencia" data-toggle="table" data-classes="table table-hover table-condensed" data-striped="true" data-row-style="rowStyle" data-search="true" data-pagination="true" data-show-columns="true">
 		<thead>
 			<tr>
 				<th data-sortable="true" >Codigo Producto</th>
@@ -113,6 +115,8 @@
 				%>
 			</tbody>
 		</table>
+        </div>
+		
     	<!-- BLOQUE DEL MODAL -->
     	<div class="modal fade" id="popEditarDiferencia">
 		<div class="modal-dialog">

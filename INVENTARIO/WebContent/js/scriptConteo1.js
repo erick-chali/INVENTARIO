@@ -5,6 +5,38 @@
 
    $(function() {
 	   
+	   
+//	   var fila = $.Callbacks();
+//	   
+//	   fila.add(verificarP1);
+//	   fila.add(verificarP2);
+//	   fila.add(verificarP3);
+//	   fila.add(verificarP4);
+//	   fila.add(verificarP5);
+//	   fila.fire(verificarP1)
+//	   fila.fire(verificarP2)
+//	   fila.fire(verificarP3)
+//	   fila.fire(verificarP4)
+//	   fila.fire(verificarP5)
+	   $('#barraNav').hide();
+	   setTimeout(function(){
+		   verificarP1();
+	    }, 200);
+	   setTimeout(function(){
+		   verificarP2();
+	    }, 400);
+	   setTimeout(function(){
+		   verificarP3();
+	    }, 600);
+	   setTimeout(function(){
+		   verificarP4();
+	    }, 800);
+	   setTimeout(function(){
+		   verificarP5();
+	    }, 1000);
+		$('#barraNav').show();
+	    
+	   
 	 //Ocultar Notificacion
 	   $('#notificacion').hide();
 	 //para sumar al darse el evento de escribir la cantidad a ingresar
@@ -97,8 +129,8 @@
 	  $("#popAbrir").click(function(event){
 			$("#popCodigoProducto").val("");
 			$("#popDescripcionProducto").val("");
-			$("table").remove();
-			var seccion = document.getElementById("seccion");
+			$("#tablaPOP").empty();
+			var seccion = document.getElementById("seccionA");
 			var estanteria = document.getElementById("estanteria");
 			var bodega = document.getElementById("bodega");
 			if(bodega.value == null || bodega.value == "" || seccion.value == null || seccion.value == "" || estanteria.value == null || estanteria.value == ""){
@@ -128,7 +160,7 @@
 			   if(responseJson!=null){
 //			       $("#popDatosBusqueda").find("tr:gt(0)").remove();
 				   var contenedor = $("#tablaPOP");
-			       var table1 = $("<table id='popDatosBusqueda' class='display'></table>");
+			       var table1 = $("<table id='popDatosBusqueda' class='table table-striped table-bordered table-condensed'></table>");
 			       var rowHead = $("<tr> <th></th> <th></th> " +
 			       		"<th></th> <th></th> <th></th> </tr>");
 			       var head = $("<thead></thead>");
@@ -183,8 +215,91 @@
 			);
 	  
    });/**Fin el document.ready()*/
-
-   
+   function sleep(milliseconds) {
+	   var start = new Date().getTime();
+	   for (var i = 0; i < 1e7; i++) {
+	     if (i > milliseconds){
+	       break;
+	     }
+	   }
+	 }
+   //funcion que verifica los permisos del usuario
+   function verificarP1(id){
+	   $.get('Permisos',{
+			opcion:$('#conteo1').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) { 
+						if(parseInt(value['permiso'])==1){
+							$('#conteo1').show();
+						}else{
+							$('#conteo1').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP2(id){
+	   $.get('Permisos',{
+			opcion:$('#conteo2').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							$('#conteo2').show();
+						}else{
+							$('#conteo2').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP3(id){
+	   $.get('Permisos',{
+			opcion:$('#inventario').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							$('#inventario').show();
+						}else{
+							$('#inventario').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP4(id){
+	   $.get('Permisos',{
+			opcion:$('#auditoria').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							$('#auditoria').show();
+						}else{
+							$('#auditoria').hide();
+						}
+				    });
+				}
+		});
+   }
+   function verificarP5(id){
+	   $.get('Permisos',{
+			opcion:$('#diferencia').get(0).id
+			},function(responseJson) {
+				if(responseJson!=null){
+					$.each(responseJson, function(key, value) {
+						if(parseInt(value['permiso'])==1){
+							
+							$('#diferencia').show();
+						}else{
+							$('#diferencia').hide();
+						}
+				    });
+				}
+		});
+   }
    //funcion para sumar cantidad actual con cantidad ingresada
    function sumarCantidad(){
 		var cantidadActual = parseInt($('#cantidadActual').val());
