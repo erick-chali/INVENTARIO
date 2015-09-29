@@ -13,8 +13,9 @@
         <title>Instalaciones Modernas | Inicio de Sesión</title>
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
         <link type="text/css" rel="stylesheet" href="css/style.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script type="text/javascript" src="js/select.js"></script>
+        
+	<script src="js/jquery-1.11.3.min.js"></script>
+    <script src="js/select.js"></script>
     </head>
     
     <body>
@@ -38,14 +39,13 @@
   	
     <div class="container">
     	
-      <form action="ServletLogin" class="form-signin" method="post" id="formLogin" onsubmit="validarFormulario">
+      <form >
       	
         <h2 class="form-signin-heading">Inicio de sesión</h2>
         <label for="ingresaUsuario" class="sr-only">Usuario</label>
         <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required>
         <label for="inputPassword" class="sr-only">Clave</label>
         <input type="password" id="clave" name="clave" class="form-control" placeholder="Clave" required>
-        <input type="text" id="texto" name="texto">
         <select class="form-control" id="noToma" name="noToma"  required>
         	<option value="">Seleccione una opcion</option>
             <% 
@@ -59,11 +59,10 @@
         </select>
         <label class="bg-danger"><h5 class="text-danger">${mensaje}</h5></label>
         <label class="bg-danger"><h5 class="text-danger">${msjSesion}</h5></label>
-        <input class="btn btn-lg btn-primary btn-block" id="btnInicia" name="btnInicia" type="submit" value="Iniciar Sesión">
+        <button type="button" id="btnInicia" class="btn btn-lg btn-primary btn-block">Iniciar Sesion</button>
 <!--        <button class="btn btn-lg btn-primary btn-block" type="submit">Iniciar Sesión</button>-->
       </form>
       
     </div>
-   
   </body>
 </html>

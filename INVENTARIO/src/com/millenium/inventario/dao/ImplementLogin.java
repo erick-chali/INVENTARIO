@@ -37,14 +37,14 @@ public class ImplementLogin implements InterfaceLogin{
 							bean.setNoToma(noToma);
 							bean.setUserID(rs.getString("UserID"));
 							
-							int userId = Integer.parseInt(rs.getString("UserID"));
-							boolean log = true;
-							stmt =null;
-							conectar = new ConectarDB().getConnection();
-							stmt = conectar.prepareCall("{call setLog(?,?)}");
-							stmt.setBoolean(1, log);
-							stmt.setInt(2, userId);
-							stmt.executeUpdate();
+//							int userId = Integer.parseInt(rs.getString("UserID"));
+//							boolean log = true;
+//							stmt =null;
+//							conectar = new ConectarDB().getConnection();
+//							stmt = conectar.prepareCall("{call setLog(?,?)}");
+//							stmt.setBoolean(1, log);
+//							stmt.setInt(2, userId);
+//							stmt.executeUpdate();
 //							while(rs.next()){
 								bean.setRespuesta(1);
 //							}
